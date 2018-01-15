@@ -9,6 +9,7 @@
     "express-fileupload": "^0.3.0",
     "express-session": "^1.15.6",
     "express-validator": "^4.2.1",   
+    "consign": "^0.1.6",
     "ejs": "^2.5.7",
     "ejs-locals": "^1.0.2",     
     "mysql": "^2.15.0",
