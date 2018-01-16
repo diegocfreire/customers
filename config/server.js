@@ -29,7 +29,7 @@ consign()
 	//.include('app/api')
 	//.include('app/utils')
 	.then('config/dbConn.js')
-	//.then('app/models')
+	.then('app/models')
 	.then('app/controllers')
 	.into(app);
 
