@@ -33,4 +33,6 @@ consign()
 	.then('app/controllers')
 	.into(app);
 
+global.conn = app.config.dbConn();
+
 module.exports = app;

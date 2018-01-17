@@ -1,14 +1,16 @@
 module.exports.index = function( application, req, res ){
-    var resultado;
-    var connection = application.config.dbConn();
-    var clienteDao = new application.app.models.clienteDAO(connection);
-    
-    clienteDao.listar(function(error, clientes){
+    var clienteDao = new application.app.models.clienteDAO(global.conn);
+    var cliente = req.params;
+    clienteDao.view(cliente,function(error, clientes){
         if( error ) {
             res.render('clienteListar', { validacao : [ {'msg': error.sqlMessage }], clientes : {} });
             return;
         }
-        res.render('clienteListar', { validacao : {}, clientes : clientes });
+        console.log(cliente);
+        //if (cliente.id)
+        //    res.render('clienteEditar', { validacao : {}, clientes : clientes });
+        //else
+            res.render('clienteListar', { validacao : {}, clientes : clientes });
     });
 }
 
@@ -17,13 +19,11 @@ module.exports.novo = function( application, req, res ){
 }
 
 module.exports.editar = function( application, req, res ){
-    
-    var cliente = { _id: req.params._id.split(':')[1] };
+    var cliente = { id: req.params.id.split(':')[1] };
 
-    var connection = application.config.dbConn();
-    var clienteDao = new application.app.models.clienteDAO(connection);
+    var clienteDao = new application.app.models.clienteDAO(global.conn);
     
-    clienteDao.editar( cliente, function(error, clientes){
+    clienteDao.view( cliente, function(error, clientes){
         if( error ) {
             res.render('clienteListar', { validacao : [ {'msg': error.sqlMessage }], clientes : {} });
             return;
@@ -45,37 +45,20 @@ module.exports.salvar = function( application, req, res ){
         return;
     }
     
-    var connection = application.config.dbConn();
-    var clienteDao = new application.app.models.clienteDAO(connection);
-    
-    if( !dadosForms._id ) {
-        var cliente = { 'nome': dadosForms.nome }
-        clienteDao.salvar(cliente, function(error, result){
-            
-            if( error ) {
-                res.render('clienteEditar', { validacao : [ {'msg': error.sqlMessage }], clientes : {} });
-                return;
-            }
-            res.redirect('/clienteListar');
-        });
-    } else {
-        var cliente = { 'nome': dadosForms.nome };        
-        clienteDao.alterar( dadosForms._id, cliente, function(error, result){
-            
-            if( error ) {
-                res.render('clienteEditar', { validacao : [ {'msg': error.sqlMessage }], clientes : {} });
-                return;
-            }
-            res.redirect('/clienteListar');
-        });
-    }
+    var clienteDao = new application.app.models.clienteDAO(global.conn);    
+    clienteDao.salvar(dadosForms, function(error, result){            
+        if( error ) {
+            res.render('clienteEditar', { validacao : [ {'msg': error.sqlMessage }], clientes : {} });
+            return;
+        }
+        res.redirect('/clienteListar');
+    });
 }
 
 module.exports.excluir = function( application, req, res ){
     
-    var cliente = { id: req.params._id.split(':')[1] };
-    var connection = application.config.dbConn();
-    var clienteDao = new application.app.models.clienteDAO(connection);
+    var cliente = { id: req.params.id.split(':')[1] };
+    var clienteDao = new application.app.models.clienteDAO(global.conn);
     
     clienteDao.excluir( cliente, function(error, clientes){
         if( error ) {

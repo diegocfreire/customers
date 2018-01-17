@@ -12,11 +12,11 @@ module.exports = function(application){
 		application.app.controllers.cliente.salvar(application, req, res);
 	});
 
-	application.get('/excluirCliente/:_id', function(req, res){
+	application.get('/excluirCliente/:id', function(req, res){
 		application.app.controllers.cliente.excluir(application, req, res);
 	});
 
-	application.get('/editarCliente/:_id', function(req, res){
+	application.get('/editarCliente/:id', function(req, res){
 		application.app.controllers.cliente.editar(application, req, res);
 	});
 }
