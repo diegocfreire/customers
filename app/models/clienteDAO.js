@@ -12,12 +12,15 @@ clienteDAO.prototype.view = function(cliente, callback) {
 }
 
 
-clienteDAO.prototype.salvar = function( cliente, callback) {	
+clienteDAO.prototype.salvar = function( cliente, callback) {
+	var sql = '';	
 	if (!cliente.id) {
-		this._connection.query('insert into cliente set ?', cliente, callback);	
+		sql = 'insert into cliente (nome) values("'+cliente.nome+'")';	
 	} else {
-		this._connection.query('update cliente set ? where id = ?', [ cliente, cliente.id], callback);
+		sql = 'update cliente set nome = "'+cliente.nome+'" where id = '+cliente.id;
 	}
+	console.log(sql);
+	this._connection.query(sql,callback);
 }
 
 clienteDAO.prototype.excluir = function( cliente, callback) {	

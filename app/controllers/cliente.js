@@ -7,10 +7,7 @@ module.exports.index = function( application, req, res ){
             return;
         }
         console.log(cliente);
-        //if (cliente.id)
-        //    res.render('clienteEditar', { validacao : {}, clientes : clientes });
-        //else
-            res.render('clienteListar', { validacao : {}, clientes : clientes });
+        res.render('clienteListar', { validacao : {}, clientes : clientes });
     });
 }
 
